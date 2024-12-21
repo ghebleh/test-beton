@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <mat-form-field appearance="fill">
+    <mat-label>Company Name:</mat-label>
+    <mat-select [(value)]="selectedCompany" (selectionChange)="onCompanyChange()">
+      <mat-option *ngFor="let company of companies" [value]="company">
+        {{ company }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Order Name </th>
+      <td mat-cell *matCellDef="let order"> {{ order.name }} </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="tarhId">
+      <th mat-header-cell *matHeaderCellDef> Tarh ID </th>
+      <td mat-cell *matCellDef="let order"> {{ order.tarhId }} </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="metraj">
+      <th mat-header-cell *matHeaderCellDef> Metraj </th>
+      <td mat-cell *matCellDef="let order"> {{ order.tarh.metraj }} </td>
+    </ng-container>
+    <ng-container matColumnDef="ingredients">
+      <th mat-header-cell *matHeaderCellDef> ingredients </th>
+      <td mat-cell *matCellDef="let order"> {{ order.tarh.ingredients }} </td>
+    </ng-container>
+    <ng-container matColumnDef="orders">
+      <th mat-header-cell *matHeaderCellDef> orders </th>
+      <td mat-cell *matCellDef="let order"> {{ order.tarh.orders }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="recieved">
+      <th mat-header-cell *matHeaderCellDef> Recieved </th>
+      <td mat-cell *matCellDef="let order"> {{ order.recieved }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sentToPlc">
+      <th mat-header-cell *matHeaderCellDef> Sent To PLC </th>
+      <td mat-cell *matCellDef="let order"> {{ order.sentToPlc }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="started">
+      <th mat-header-cell *matHeaderCellDef> Started </th>
+      <td mat-cell *matCellDef="let order"> {{ order.started }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finished">
+      <th mat-header-cell *matHeaderCellDef> Finished </th>
+      <td mat-cell *matCellDef="let order"> {{ order.finished }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="batchInfo">
+      <th mat-header-cell *matHeaderCellDef> Batch Info </th>
+      <td mat-cell *matCellDef="let order">
+        <a href="#" (click)="openBatchInfo(order.id)">View Batch Info</a>
+      </td>
+    </ng-container>
+
+  
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="selectedBatchInfo" class="modal-backdrop">
+    <div class="modal-content">
+      <h2>Batch Info</h2>
+      
+      <table mat-table [dataSource]="selectedBatchInfo" class="mat-elevation-z8">
+        <ng-container matColumnDef="batchNo">
+          <th mat-header-cell *matHeaderCellDef> Batch No </th>
+          <td mat-cell *matCellDef="let batch"> {{ batch.batchNo }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="dateTime">
+          <th mat-header-cell *matHeaderCellDef> Date Time </th>
+          <td mat-cell *matCellDef="let batch"> {{ batch.dateTime }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="values">
+          <th mat-header-cell *matHeaderCellDef> Values </th>
+          <td mat-cell *matCellDef="let batch"> {{ batch.values.join(', ') }} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['batchNo', 'dateTime', 'values']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['batchNo', 'dateTime', 'values'];"></tr>
+      </table>
+  
+      <button mat-button (click)="closeModal()">Close</button>
+    </div>
+  </div>
+  
+</div>
